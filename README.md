@@ -115,7 +115,7 @@ After that ansible with run the playbook and install Apache2, docker and create 
 
 # Accessing the application
 
-In your browser access with EC2 ip. Apache withh proxy to the container in the port 8080 and display the application
+In your browser access with EC2 ip. Apache will proxy to the container in the port 8080 and display the application
 
 http://EC2_IP
 
