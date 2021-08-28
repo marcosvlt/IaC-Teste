@@ -1,0 +1,108 @@
+- hosts: all
+  vars_files:
+    - vars/apache.yml
+  handlers:
+    - name: "restart apache"
+      service:
+        name: apache2
+        state: restarted
+      become: yes
+
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+      become: yes
+
+  tasks:
+
+    - name: Atualizando cache do apt
+      apt: update_cache=yes
+      become: yes
+
+    - name: Atualizando pacotes
+      apt: upgrade=dist
+      become: yes
+
+    - name: Instalando apache2
+      apt: name=apache2 update_cache=yes state=latest
+      become: yes
+
+    - name: Instalando pacote necessarios para o Docker
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'curl', 'gnupg', 'lsb-release']
+      become: yes
+
+    - name: Adicionando a GPG do Docker  
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      become: yes
+
+    - name: Adicionando a GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      become: yes        
+
+    - name: Adicionando o repositorio do Docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+      become: yes
+
+    - name: Atualizando o apt e instalando o docker
+      apt: update_cache=yes name=docker-ce state=latest
+      become: yes
+
+    - name: Instalndo o docker-compose
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+      become: yes
+  
+    - name: Habilitando modulo ProxyPass
+      community.general.apache2_module:
+        state: present
+        name: proxy
+      become: yes
+
+    - name: Habilitando modulo mod_proxy_http
+      community.general.apache2_module:
+         state: present
+         name: proxy_http
+      become: yes
+
+    - name: Configurando o Vhost do Apache
+      template: 
+        src : "apache/apache.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+      become: yes
+
+    - name: Habilitando o Vhost
+      shell: /usr/sbin/a2ensite {{ http_conf }}
+      notify: Reload Apache
+      become: yes
+
+    - name: Desabilitando o defaul Vhost
+      shell: /usr/sbin/a2dissite 000-default.conf
+      notify: Reload Apache
+      become: yes
+
+    - name: Rsync dos arquivos do Docker
+      ansible.posix.synchronize:
+        src:  ../docker/
+        dest: /home/marcos
+      become: yes
+
+    # Tentei utilizar o modulo do compose para o ansible, mas encontrei alguns bugs na hora da instalação
+
+    - name: Run container
+      shell:
+        cmd: "/usr/local/bin/docker-compose -f docker-compose.yaml up -d"
+        chdir: /home/marcos/
+      become: yes
+    
+
+
