@@ -13,6 +13,7 @@ Table of contents
       * [Terraform](#terraform)
       * [Ansible](#ansible)
    * [Accessing the application](#accessing-the-application)
+   * [Update the application](#update-the-application)
 
 
 <!--te-->
@@ -118,5 +119,11 @@ After that ansible with run the playbook and install Apache2, docker and create 
 In your browser access with EC2 ip. Apache will proxy to the container in the port 8080 and display the application
 
 http://EC2_IP
+
+# Update the application
+
+The container is mounted in the /home/marcos/ with persistent files, just update the files and will reflect in the container
+
+
 
 
