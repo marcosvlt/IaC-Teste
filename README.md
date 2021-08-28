@@ -1,9 +1,32 @@
-# IaC-teste
-IaC-Teste Lab to deploy a AWS EC2 with Terraform, Ansible, Apache2,  Docker and Golang
+<h1 align="center">IaC-teste</h1>
 
+Lab to deploy a AWS EC2 with Terraform, Ansible, Apache2,  Docker and Golang
+
+Table of contents
+=================
+
+<!--ts-->
+   
+   * [Prerequisites](#prerequisites)
+   * [Installation](#installation)
+   * [Usage](#usage)
+      * [Terraform](#terraform)
+
+<!--te-->
+
+# Prerequisites
+
+# Installation
+
+
+Linux 
+```bash
+codigo
+```
+
+# Usage
 
 # Ansible
-
 
 ### Create a host file in ansible folder with target machines
 
@@ -19,3 +42,7 @@ To use it in a playbook, specify: community.general.apache2_module.
 To install it use: ansible-galaxy collection install ansible.posix.
 
 To use it in a playbook, specify: ansible.posix.synchronize.
+
+# Terraform
+
+
