@@ -37,11 +37,11 @@ Link: https://docs.ansible.com/ansible/latest/installation_guide/index.html
 
 community.general.apache2_module – Enables/disables a module of the Apache2 webserver.
 ```
-ansible-galaxy collection install community.general.
+ansible-galaxy collection install community.general
 ```
 ansible.posix.synchronize – A wrapper around rsync to make common tasks in your playbooks quick and easy
 ```
-ansible-galaxy collection install ansible.posix.
+ansible-galaxy collection install ansible.posix
 ```
 
 
