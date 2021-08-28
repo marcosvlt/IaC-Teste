@@ -111,7 +111,7 @@ Run ansible with private key configured in AWS KeyPars
 ansible-playbook -i hosts mytask.yml -u ubuntu --private-key PRIVATE_KEY_LOCATION
 ```
 
-After that ansible will run the playbook and install Apache2, docker and create the container listening on porto 8080
+After that ansible will run the playbook and install Apache2, docker and create the container listening on port 8080
 
 
 # Accessing the application
